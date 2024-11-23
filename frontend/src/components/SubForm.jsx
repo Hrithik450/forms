@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const SubForm = ({ formFields, onchange }) => {
-  const [entries, setEntries] = useState([]);
+const SubForm = ({ formFields, onchange, entries, setEntries }) => {
   const [SubFormData, setSubFormData] = useState({});
   const [alert, setalert] = useState(null);
 
@@ -37,7 +36,19 @@ const SubForm = ({ formFields, onchange }) => {
     setEntries((prev) => prev.filter((_, i) => i != index));
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e, field) => {
+    const Value = e.target.value;
+    if (field?.validation && !field.validation(Value)) {
+      setalert({
+        type: "danger",
+        msg: `You cannot exceed limit of ${field.name}`,
+      });
+      setTimeout(() => {
+        setalert(null);
+      }, 1500);
+      return;
+    }
+
     const { name, value } = e.target;
     setSubFormData((prev) => ({
       ...prev,
@@ -74,7 +85,7 @@ const SubForm = ({ formFields, onchange }) => {
                 id={field.name}
                 name={field.name}
                 value={(SubFormData && SubFormData[field.name]) || ""}
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, field)}
               >
                 <Option value="">Select {field.label}</Option>
                 {field.options.map((option, index) => (
@@ -88,7 +99,7 @@ const SubForm = ({ formFields, onchange }) => {
                 type="date"
                 name={field.name}
                 value={(SubFormData && SubFormData[field.name]) || ""}
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, field)}
                 max={new Date().toISOString().split("T")[0]}
               />
             ) : (
@@ -97,7 +108,7 @@ const SubForm = ({ formFields, onchange }) => {
                 type={field.type}
                 name={field.name}
                 value={(SubFormData && SubFormData[field.name]) || ""}
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, field)}
               ></SubInput>
             )}
           </SubInputBox>
@@ -114,7 +125,7 @@ const SubForm = ({ formFields, onchange }) => {
         )}
 
         <SubButtonBox>
-          <SubButton onClick={(e) => handleSubmit(e)}>Add+</SubButton>
+          <SubButton onClick={(e) => handleSubmit(e)}>Add</SubButton>
         </SubButtonBox>
       </SubData>
     </>

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../firebase";
 import SubForm from "./SubForm";
 
 const FormFields = [
@@ -77,12 +79,15 @@ const FormFields = [
         label: "Year of Passing",
         type: "number",
         required: true,
+        validation: (value) =>
+          value.length <= 4 && Number(value) <= new Date().getFullYear(),
       },
       {
         name: "Percentage",
         label: "Percentage (%)",
         type: "number",
         required: true,
+        validation: (value) => value.length <= 2,
       },
     ],
   },
@@ -516,7 +521,22 @@ const FormFields = [
 ];
 
 const Formbuilder = () => {
+  const [entries, setEntries] = useState([]);
   const [formState, setformState] = useState({});
+  const [alert, setalert] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const docRef = await addDoc(collection(db, "formSubmissions"), formState);
+      setalert({ type: "success", msg: "Form submitted successfully!" });
+      setformState({});
+      setEntries({});
+    } catch (error) {
+      setalert({ type: "danger", msg: "Error submitting the form!" });
+    }
+  };
 
   const HandleChange = (key, value) => {
     setformState((prev) => ({
@@ -526,6 +546,10 @@ const Formbuilder = () => {
   };
 
   const handleChange = (e, field) => {
+    const textarea = e.target;
+    textarea.style.height = "auto";
+    textarea.style.height = textarea.scrollHeight + "px";
+
     const Value = e.target.value;
     if (field?.validation && !field.validation(Value)) {
       return;
@@ -533,17 +557,6 @@ const Formbuilder = () => {
 
     const { name, value } = e.target;
     HandleChange(name, value);
-  };
-
-  const handleInput = (e) => {
-    const textarea = e.target;
-    textarea.style.height = "auto";
-    textarea.style.height = textarea.scrollHeight + "px";
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("submitted");
   };
 
   return (
@@ -561,7 +574,7 @@ const Formbuilder = () => {
                   <Label>{field.label}</Label>
                   <Desc
                     placeholder={field.placeholder}
-                    onInput={handleInput}
+                    value={(formState && formState[field.name]) || ""}
                     onChange={(e) => handleChange(e, field)}
                     name={field.name}
                     spellCheck="true"
@@ -578,6 +591,8 @@ const Formbuilder = () => {
                   <SubForm
                     formFields={field.fields}
                     onchange={(data) => HandleChange(field.name, data)}
+                    entries={entries}
+                    setEntries={setEntries}
                   />
                 </div>
               );
@@ -597,6 +612,13 @@ const Formbuilder = () => {
               </div>
             );
           })}
+
+          {alert && (
+            <div className={`alert alert-${alert.type}`} role="alert">
+              {alert.msg}
+            </div>
+          )}
+
           <Button type="submit">Submit</Button>
         </Hero>
       </Form>
