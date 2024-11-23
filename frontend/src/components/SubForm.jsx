@@ -133,7 +133,6 @@ const SubForm = ({ formFields, onchange, entries, setEntries }) => {
 };
 
 const SubData = styled.div`
-  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.3);
   margin: 0.5rem 0 1rem 1rem;
   max-height: max-content;
   border-radius: 10px;

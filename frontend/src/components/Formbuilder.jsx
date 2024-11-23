@@ -583,7 +583,7 @@ const Formbuilder = () => {
           {FormFields.map((field, index) => {
             if (field.type === "textarea") {
               return (
-                <div key={index}>
+                <FieldContainer key={index}>
                   <Label>{field.label}</Label>
                   <Desc
                     placeholder={field.placeholder}
@@ -593,13 +593,13 @@ const Formbuilder = () => {
                     spellCheck="true"
                     required={field.required}
                   />
-                </div>
+                </FieldContainer>
               );
             }
 
             if (field.type === "subform") {
               return (
-                <div key={index}>
+                <FieldContainer key={index}>
                   <Label>{field.label}</Label>
                   <SubForm
                     formFields={field.fields}
@@ -607,12 +607,12 @@ const Formbuilder = () => {
                     entries={entries}
                     setEntries={setEntries}
                   />
-                </div>
+                </FieldContainer>
               );
             }
 
             return (
-              <div key={index}>
+              <FieldContainer key={index}>
                 <Label>{field.label}</Label>
                 <Input
                   type={field.type}
@@ -622,7 +622,7 @@ const Formbuilder = () => {
                   onChange={(e) => handleChange(e, field)}
                   required={field.required}
                 />
-              </div>
+              </FieldContainer>
             );
           })}
 
@@ -655,8 +655,20 @@ const Form = styled.form`
   padding: 2rem;
 
   @media (max-width: 450px) {
-    max-width: 90%;
+    max-width: 100%;
     padding: 1.2rem;
+  }
+`;
+
+const FieldContainer = styled.div`
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.3);
+  max-height: max-content;
+  padding-bottom: 0.5rem;
+  border-radius: 10px;
+  margin: 2rem 0;
+
+  @media (max-width: 450px) {
+    margin: 1.5rem 0;
   }
 `;
 
@@ -666,20 +678,26 @@ const Hero = styled.div`
 
 const H1 = styled.h1`
   max-height: max-content;
+  text-align: center;
 `;
 
 const Label = styled.label`
+  border-radius: 10px 10px 0 0;
+  background-color: black;
   max-height: max-content;
+  padding: 0.5rem;
+  width: 100%;
+  color: white;
 `;
 
 const P = styled.p`
   max-height: max-content;
-  display: flex;
-  column-gap: 0.5rem;
+  text-align: center;
 `;
 
 const A = styled.a`
   max-height: max-content;
+  margin-left: 0.5rem;
 `;
 
 const Desc = styled.textarea`
