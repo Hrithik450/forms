@@ -1,8 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 import { collection, addDoc } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 import SubForm from "./SubForm";
-import db from "../firebase.jsx";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCCEvPulWoPOep_9rtoSxQxch599sPZqJk",
+  authDomain: "forms-c4eb8.firebaseapp.com",
+  projectId: "forms-c4eb8",
+  storageBucket: "forms-c4eb8.firebasestorage.app",
+  messagingSenderId: "293870870373",
+  appId: "1:293870870373:web:9cc9808710c0893bc60b8c",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 const FormFields = [
   {
