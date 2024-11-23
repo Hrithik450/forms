@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { collection, addDoc } from "firebase/firestore";
 import SubForm from "./SubForm";
-import db from "../firebase";
+import db from "../firebase.jsx";
 
 const FormFields = [
   {
