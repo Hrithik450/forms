@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const SubForm = ({ formFields, onchange, entries, setEntries }) => {
+const SubForm = ({ formFields, onchange, clearEntries }) => {
+  const [entries, setEntries] = useState([]);
   const [SubFormData, setSubFormData] = useState({});
   const [alert, setalert] = useState(null);
 
@@ -27,6 +28,10 @@ const SubForm = ({ formFields, onchange, entries, setEntries }) => {
       setalert(null);
     }, 1500);
   };
+
+  useEffect(() => {
+    setEntries([]);
+  }, [clearEntries]);
 
   useEffect(() => {
     onchange(entries);

@@ -7,6 +7,12 @@ export const FormFields = [
     required: true,
   },
   {
+    name: "Profile",
+    label: "2. Profile Image*",
+    type: "file",
+    required: true,
+  },
+  {
     name: "Designation",
     label: "3. Designation*",
     type: "text",
@@ -47,7 +53,7 @@ export const FormFields = [
     label: "8. Objective*",
     type: "textarea",
     placeholder: "Enter your description...",
-    required: false,
+    required: true,
   },
   {
     name: "Education",
@@ -59,6 +65,24 @@ export const FormFields = [
         label: "Course",
         type: "select",
         options: ["UG", "PG", "PhD"],
+        required: true,
+      },
+      {
+        name: "Degree",
+        label: "Degree Name",
+        type: "select",
+        options: [
+          "M.Sc",
+          "B.Sc",
+          "BCA",
+          "MCA",
+          "M.Tech",
+          "B.Tech",
+          "BBA",
+          "LLB",
+          "B.Arch",
+          "M.Acrh",
+        ],
         required: true,
       },
       {

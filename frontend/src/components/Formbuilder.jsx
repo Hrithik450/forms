@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 import { collection, addDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { FormFields } from "./DataArray";
 import SubForm from "./SubForm";
+import axios from "axios";
+import DotSpinner from "./spinner";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCCEvPulWoPOep_9rtoSxQxch599sPZqJk",
@@ -19,20 +21,65 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const Formbuilder = () => {
-  const [entries, setEntries] = useState([]);
   const [formState, setformState] = useState({});
+  const [image, setImage] = useState(null);
+  const [preview, setpreview] = useState(null);
   const [alert, setalert] = useState(null);
+  const [loading, setloading] = useState(false);
+  const [clearEntries, setclearEntries] = useState(false);
+
+  const [clearFile, setclearFile] = useState(false);
+  const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    if (fileInputRef && fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  }, [clearFile]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const docRef = await addDoc(collection(db, "formSubmissions"), formState);
-      setalert({ type: "success", msg: "Form submitted successfully!" });
-      setformState({});
-      setEntries({});
-    } catch (error) {
-      setalert({ type: "danger", msg: "Error submitting the form!" });
+    if (image) {
+      setloading(true);
+      const cloudName = "duozomapm";
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append("upload_preset", "UVCE_FORM_PRESET");
+
+      try {
+        const res = await axios.post(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+          formData
+        );
+
+        const docRef = await addDoc(collection(db, "formSubmissions"), {
+          ...formState,
+          Profile: res.data.secure_url,
+        });
+
+        setalert({ type: "success", msg: "Form submitted successfully!" });
+        setTimeout(() => {
+          setalert(null);
+        }, 1000);
+
+        setformState({});
+        setloading(false);
+        setImage(null);
+        setpreview(null);
+        setclearFile(!clearFile);
+        setclearEntries(!clearEntries);
+      } catch (error) {
+        setalert({ type: "danger", msg: "Error submitting the form!" });
+        setTimeout(() => {
+          setalert(null);
+        }, 1000);
+      }
+    } else {
+      setalert({ type: "danger", msg: "Please Upload the Image" });
+      setTimeout(() => {
+        setalert(null);
+      }, 1000);
     }
   };
 
@@ -57,6 +104,17 @@ const Formbuilder = () => {
     HandleChange(name, value);
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setpreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit}>
@@ -66,6 +124,21 @@ const Formbuilder = () => {
             for UVCE Website<A href="/www.uvce.ac.in">www.uvce.ac.in</A>
           </P>
           {FormFields.map((field, index) => {
+            if (field.type === "file") {
+              return (
+                <FieldContainer key={index}>
+                  <Label>{field.label}</Label>
+                  {preview && <Image src={preview} alt="Preview" />}
+                  <Input
+                    ref={fileInputRef}
+                    type={field.type}
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                </FieldContainer>
+              );
+            }
+
             if (field.type === "textarea") {
               return (
                 <FieldContainer key={index}>
@@ -89,8 +162,7 @@ const Formbuilder = () => {
                   <SubForm
                     formFields={field.fields}
                     onchange={(data) => HandleChange(field.name, data)}
-                    entries={entries}
-                    setEntries={setEntries}
+                    clearEntries={clearEntries}
                   />
                 </FieldContainer>
               );
@@ -117,7 +189,7 @@ const Formbuilder = () => {
             </div>
           )}
 
-          <Button type="submit">Submit</Button>
+          <Button type="submit">{loading ? <DotSpinner /> : "Submit"}</Button>
         </Hero>
       </Form>
     </Wrapper>
@@ -216,6 +288,12 @@ const Button = styled.button`
   border-radius: 10px;
   font-weight: 700;
   margin: 1rem 0;
+  padding: 1rem;
+  width: 100%;
+`;
+
+const Image = styled.img`
+  max-height: max-content;
   width: 100%;
 `;
 
