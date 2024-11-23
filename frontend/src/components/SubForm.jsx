@@ -4,7 +4,20 @@ import styled from "styled-components";
 const SubForm = ({ formFields, onchange, clearEntries }) => {
   const [entries, setEntries] = useState([]);
   const [SubFormData, setSubFormData] = useState({});
-  const [alert, setalert] = useState(null);
+  const [alert, setalert] = useState([]);
+
+  useEffect(() => {
+    if (alert.length > 0) {
+      const timer = setTimeout(() => {
+        setalert((prev) => prev.slice(1));
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [alert]);
+
+  const showAlert = (alert) => {
+    setalert((prev) => [...prev, alert]);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,19 +27,13 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
     );
 
     if (!isValid) {
-      setalert({ type: "danger", msg: "Please fill all the details" });
-      setTimeout(() => {
-        setalert(null);
-      }, 1500);
+      showAlert({ type: "danger", msg: "Please fill all the details" });
       return;
     }
 
     setEntries((prev) => [...prev, SubFormData]);
     setSubFormData({});
-    setalert({ type: "success", msg: "Successfully Added" });
-    setTimeout(() => {
-      setalert(null);
-    }, 1500);
+    showAlert({ type: "success", msg: "Successfully Added" });
   };
 
   useEffect(() => {
@@ -44,13 +51,10 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
   const handleChange = (e, field) => {
     const Value = e.target.value;
     if (field?.validation && !field.validation(Value)) {
-      setalert({
+      showAlert({
         type: "danger",
         msg: `You cannot exceed limit of ${field.name}`,
       });
-      setTimeout(() => {
-        setalert(null);
-      }, 1500);
       return;
     }
 
@@ -119,13 +123,13 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
           </SubInputBox>
         ))}
 
-        {alert && (
+        {alert.length > 0 && (
           <div
-            className={`alert alert-${alert.type}`}
+            className={`alert alert-${alert[0].type}`}
             role="alert"
             style={{ marginInline: "1rem" }}
           >
-            {alert.msg}
+            {alert[0].msg}
           </div>
         )}
 

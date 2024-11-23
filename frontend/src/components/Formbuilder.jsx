@@ -21,10 +21,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const Formbuilder = () => {
-  const [formState, setformState] = useState({});
+  const [formState, setformState] = useState(new Map());
+  const [fileStates, setFileStates] = useState(new Map());
   const [image, setImage] = useState(null);
   const [preview, setpreview] = useState(null);
-  const [alert, setalert] = useState(null);
+  const [alert, setalert] = useState([]);
   const [loading, setloading] = useState(false);
   const [clearEntries, setclearEntries] = useState(false);
 
@@ -36,6 +37,19 @@ const Formbuilder = () => {
       fileInputRef.current.value = "";
     }
   }, [clearFile]);
+
+  useEffect(() => {
+    if (alert.length > 0) {
+      const timer = setTimeout(() => {
+        setalert((prev) => prev.slice(1));
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [alert]);
+
+  const showAlert = (alert) => {
+    setalert((prev) => [...prev, alert]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,37 +72,42 @@ const Formbuilder = () => {
           Profile: res.data.secure_url,
         });
 
-        setalert({ type: "success", msg: "Form submitted successfully!" });
-        setTimeout(() => {
-          setalert(null);
-        }, 1000);
+        showAlert({ type: "success", msg: "Form submitted successfully!" });
 
-        setformState({});
+        setformState(new Map());
         setloading(false);
         setImage(null);
         setpreview(null);
         setclearFile(!clearFile);
         setclearEntries(!clearEntries);
       } catch (error) {
-        setalert({ type: "danger", msg: "Error submitting the form!" });
-        setTimeout(() => {
-          setalert(null);
-        }, 1000);
+        showAlert({ type: "danger", msg: "Error submitting the form!" });
       }
     } else {
-      setalert({ type: "danger", msg: "Please Upload the Image" });
-      setTimeout(() => {
-        setalert(null);
-      }, 1000);
+      showAlert({ type: "danger", msg: "Please Upload the Image" });
     }
   };
 
   const HandleChange = (key, value) => {
-    setformState((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
+    setformState((prev) => {
+      const NewformState = new Map(prev);
+      NewformState.set(key, value);
+      return NewformState;
+    });
   };
+
+  const debounce = (func, delay) => {
+    let timer;
+    return (...args) => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => func(...args), delay);
+    };
+  };
+
+  const debouncedHandleChange = debounce(
+    (key, value) => HandleChange(key, value),
+    10
+  );
 
   const handleChange = (e, field) => {
     const textarea = e.target;
@@ -101,16 +120,20 @@ const Formbuilder = () => {
     }
 
     const { name, value } = e.target;
-    HandleChange(name, value);
+    debouncedHandleChange(name, value);
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e, field) => {
     const file = e.target.files[0];
-    setImage(file);
+    setFileStates((prev) => {
+      const newFileStates = new Map(prev);
+      newFileStates.set(field.name, file);
+      return newFileStates;
+    });
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      setpreview(reader.result);
+      setpreview((prev) => ({ ...prev, [field.name]: reader.result }));
     };
     reader.readAsDataURL(file);
   };
@@ -128,12 +151,13 @@ const Formbuilder = () => {
               return (
                 <FieldContainer key={index}>
                   <Label>{field.label}</Label>
-                  {preview && <Image src={preview} alt="Preview" />}
+                  {preview && <Image src={preview[field.name]} alt="Preview" />}
                   <Input
+                    name={field.name}
                     ref={fileInputRef}
                     type={field.type}
                     accept="image/*"
-                    onChange={handleImageChange}
+                    onChange={(e) => handleImageChange(e, field)}
                   />
                 </FieldContainer>
               );
@@ -144,10 +168,10 @@ const Formbuilder = () => {
                 <FieldContainer key={index}>
                   <Label>{field.label}</Label>
                   <Desc
-                    placeholder={field.placeholder}
-                    value={(formState && formState[field.name]) || ""}
-                    onChange={(e) => handleChange(e, field)}
                     name={field.name}
+                    placeholder={field.placeholder}
+                    value={formState.get(field.name) || ""}
+                    onChange={(e) => handleChange(e, field)}
                     spellCheck="true"
                     required={field.required}
                   />
@@ -175,7 +199,7 @@ const Formbuilder = () => {
                   type={field.type}
                   name={field.name}
                   placeholder={field.placeholder}
-                  value={(formState && formState[field.name]) || ""}
+                  value={formState.get(field.name) || ""}
                   onChange={(e) => handleChange(e, field)}
                   required={field.required}
                 />
@@ -183,9 +207,9 @@ const Formbuilder = () => {
             );
           })}
 
-          {alert && (
-            <div className={`alert alert-${alert.type}`} role="alert">
-              {alert.msg}
+          {alert.length > 0 && (
+            <div className={`alert alert-${alert[0].type}`} role="alert">
+              {alert[0].msg}
             </div>
           )}
 
