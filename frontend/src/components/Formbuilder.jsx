@@ -21,15 +21,16 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const Formbuilder = () => {
-  const [formState, setformState] = useState(new Map());
+  const [formState, setformState] = useState({});
   const [image, setImage] = useState(null);
   const [preview, setpreview] = useState(null);
   const [alert, setalert] = useState([]);
   const [loading, setloading] = useState(false);
   const [clearEntries, setclearEntries] = useState(false);
-
   const [clearFile, setclearFile] = useState(false);
   const fileInputRef = useRef(null);
+
+  console.log(formState);
 
   useEffect(() => {
     if (fileInputRef && fileInputRef.current) {
@@ -73,7 +74,7 @@ const Formbuilder = () => {
 
         showAlert({ type: "success", msg: "Form submitted successfully!" });
 
-        setformState(new Map());
+        setformState({});
         setloading(false);
         setImage(null);
         setpreview(null);
@@ -88,11 +89,10 @@ const Formbuilder = () => {
   };
 
   const HandleChange = (key, value) => {
-    setformState((prev) => {
-      const NewformState = new Map(prev);
-      NewformState.set(key, value);
-      return NewformState;
-    });
+    setformState((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
   };
 
   const debounce = (func, delay) => {
@@ -165,7 +165,7 @@ const Formbuilder = () => {
                   <Desc
                     name={field.name}
                     placeholder={field.placeholder}
-                    value={formState.get(field.name) || ""}
+                    value={(formState && formState[field.name]) || ""}
                     onChange={(e) => handleChange(e, field)}
                     spellCheck="true"
                     required={field.required}
@@ -194,7 +194,7 @@ const Formbuilder = () => {
                   type={field.type}
                   name={field.name}
                   placeholder={field.placeholder}
-                  value={formState.get(field.name) || ""}
+                  value={(formState && formState[field.name]) || ""}
                   onChange={(e) => handleChange(e, field)}
                   required={field.required}
                 />
