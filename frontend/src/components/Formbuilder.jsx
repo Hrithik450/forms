@@ -19,35 +19,35 @@ const db = getFirestore(app);
 
 const FormFields = [
   {
-    name: "FullName",
+    name: "FullName",  /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "1. Full Name*",
     type: "text",
     placeholder: "Full Name",
     required: true,
   },
   {
-    name: "Designation",
+    name: "Designation", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "3. Designation*",
     type: "text",
     placeholder: "Designation",
     required: true,
   },
   {
-    name: "OfficialAddress",
+    name: "OfficialAddress", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "4. Official Address*",
     type: "text",
     placeholder: "Address",
     required: true,
   },
   {
-    name: "Email",
+    name: "Email", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "5. Email ID*",
     type: "email",
     placeholder: "Email",
     required: true,
   },
   {
-    name: "Phone",
+    name: "Phone", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "6. Contact Number*",
     type: "number",
     placeholder: "Phone",
@@ -55,40 +55,41 @@ const FormFields = [
     validation: (value) => value.length <= 10,
   },
   {
-    name: "AboutYou",
+    name: "AboutYou", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "7. About You (200-500 words)*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "Objective",
+    name: "Objective",/*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "8. Objective*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: false,
   },
   {
-    name: "Education",
+    name: "Education", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "9. Education*",
     type: "subform",
     fields: [
       {
-        name: "Course",
+        name: "Course", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Course",
         type: "select",
         options: ["UG", "PG", "PhD"],
         required: true,
       },
       {
-        name: "University",
+        name: "University", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "University Name",
         type: "text",
         required: true,
       },
-      { name: "College", label: "College Name", type: "text", required: true },
+      { name: "College", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
+       label: "College Name", type: "text", required: true },
       {
-        name: "PassYear",
+        name: "PassYear", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Year of Passing",
         type: "number",
         required: true,
@@ -96,7 +97,7 @@ const FormFields = [
           value.length <= 4 && Number(value) <= new Date().getFullYear(),
       },
       {
-        name: "Percentage",
+        name: "Percentage", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Percentage (%)",
         type: "number",
         required: true,
@@ -105,36 +106,36 @@ const FormFields = [
     ],
   },
   {
-    name: "TeachingExperience",
+    name: "TeachingExperience", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "10. Teaching Experience*",
     type: "subform",
     fields: [
       {
-        name: "Designation",
+        name: "Designation", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Designation",
         type: "text",
         required: true,
       },
       {
-        name: "From",
+        name: "From", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "From",
         type: "date",
         required: true,
       },
       {
-        name: "To",
+        name: "To", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "To",
         type: "date",
         required: true,
       },
       {
-        name: "Department",
+        name: "Department", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Dept Name",
         type: "text",
         required: true,
       },
       {
-        name: "University",
+        name: "University", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "University Name",
         type: "text",
         required: true,
@@ -142,38 +143,38 @@ const FormFields = [
     ],
   },
   {
-    name: "IndustrialExperience",
+    name: "IndustrialExperience", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "11. Industrial Experience*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "AcademicContributions",
+    name: "AcademicContributions", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "12. Academic Contributions*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "AdministrativePositions",
+    name: "AdministrativePositions", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "13. Administrative Positions Held*",
     type: "subform",
     fields: [
       {
-        name: "Designation",
+        name: "Designation", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Designation",
         type: "text",
         required: true,
       },
       {
-        name: "From",
+        name: "From", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "From",
         type: "date",
         required: true,
       },
       {
-        name: "To",
+        name: "To", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "To",
         type: "date",
         required: true,
@@ -181,104 +182,104 @@ const FormFields = [
     ],
   },
   {
-    name: "Responsibilities",
+    name: "Responsibilities", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "14. State , National and International Level Responsibilities*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "FacultyCouncil",
+    name: "FacultyCouncil", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "15. Faculty and Academic Council*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "BookAppoinment",
+    name: "BookAppoinment", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "16. Board of Appointment*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "BoardStudies",
+    name: "BoardStudies", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "17. Board of Studies*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "BoardExamination",
+    name: "BoardExamination", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "18. Board of Examination*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "ExaminationResponsibilites",
+    name: "ExaminationResponsibilites", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "19. Examination Responsibilities*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "TechnicalCommitees",
+    name: "TechnicalCommitees", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "20. Technical Commitees*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "Research",
+    name: "Research", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "21. Research Intersets*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "SponseredProjects",
+    name: "SponseredProjects", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "23. Sponsered Research Projects*",
     type: "subform",
     fields: [
       {
-        name: "PIName",
+        name: "PIName", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "PI Name",
         type: "text",
         required: true,
       },
       {
-        name: "PITitle",
+        name: "PITitle", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Project Title",
         type: "text",
         required: true,
       },
       {
-        name: "SponserAgency",
+        name: "SponserAgency", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Sponsering Agency",
         type: "text",
         required: true,
       },
       {
-        name: "Duration",
+        name: "Duration", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Duration",
         type: "text",
         required: true,
       },
       {
-        name: "StartYear",
+        name: "StartYear", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Year of Start",
         type: "date",
         required: true,
       },
       {
-        name: "EndYear",
+        name: "EndYear", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Year of Completion",
         type: "date",
         required: true,
       },
       {
-        name: "Amount",
+        name: "Amount", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Sanctioned Amount",
         type: "number",
         required: true,
@@ -286,48 +287,48 @@ const FormFields = [
     ],
   },
   {
-    name: "ConsultancyProjects",
+    name: "ConsultancyProjects", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "24. Consultancy Projects*",
     type: "subform",
     fields: [
       {
-        name: "PIName",
+        name: "PIName", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "PI Name",
         type: "text",
         required: true,
       },
       {
-        name: "PITitle",
+        name: "PITitle", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Project Title",
         type: "text",
         required: true,
       },
       {
-        name: "SponserAgency",
+        name: "SponserAgency", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Sponsering Agency",
         type: "text",
         required: true,
       },
       {
-        name: "Duration",
+        name: "Duration", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Duration",
         type: "text",
         required: true,
       },
       {
-        name: "StartYear",
+        name: "StartYear", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Year of Start",
         type: "date",
         required: true,
       },
       {
-        name: "EndYear",
+        name: "EndYear", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Year of Completion",
         type: "date",
         required: true,
       },
       {
-        name: "Amount",
+        name: "Amount", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Sanctioned Amount",
         type: "number",
         required: true,
@@ -335,36 +336,36 @@ const FormFields = [
     ],
   },
   {
-    name: "Patents",
+    name: "Patents", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "25. Patents*",
     type: "subform",
     fields: [
       {
-        name: "Author",
+        name: "Author", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Author",
         type: "text",
         required: true,
       },
       {
-        name: "PTitle",
+        name: "PTitle", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Patent Title",
         type: "text",
         required: true,
       },
       {
-        name: "PName",
+        name: "PName", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Patent Name",
         type: "text",
         required: true,
       },
       {
-        name: "DesignNo",
+        name: "DesignNo", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Design No",
         type: "number",
         required: true,
       },
       {
-        name: "Year",
+        name: "Year", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Year of Grant",
         type: "date",
         required: true,
@@ -372,42 +373,42 @@ const FormFields = [
     ],
   },
   {
-    name: "Books",
+    name: "Books", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "26. Books*",
     type: "subform",
     fields: [
       {
-        name: "Author",
+        name: "Author", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Author",
         type: "text",
         required: true,
       },
       {
-        name: "BTitle",
+        name: "BTitle", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Title of the Book",
         type: "text",
         required: true,
       },
       {
-        name: "PubName",
+        name: "PubName", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Publisher Name",
         type: "text",
         required: true,
       },
       {
-        name: "Pages",
+        name: "Pages", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Pages",
         type: "number",
         required: true,
       },
       {
-        name: "Date",
+        name: "Date", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Date",
         type: "date",
         required: true,
       },
       {
-        name: "ISBN",
+        name: "ISBN", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "ISBN",
         type: "number",
         required: true,
@@ -415,37 +416,37 @@ const FormFields = [
     ],
   },
   {
-    name: "AwardsAndRecognition",
+    name: "AwardsAndRecognition", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "27. Awards And Recognition*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "PhD",
+    name: "PhD", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "28. Ph.D Guidance (Awards and Ongoing)",
     type: "subform",
     fields: [
       {
-        name: "ScholarName",
+        name: "ScholarName", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Scholar Name",
         type: "text",
         required: true,
       },
-      {
-        name: "TTitle",
+      { 
+        name: "TTitle", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Thesis Title",
         type: "text",
         required: true,
       },
       {
-        name: "University",
+        name: "University", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "University Name",
         type: "text",
         required: true,
       },
       {
-        name: "Year",
+        name: "Year", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Year",
         type: "date",
         required: true,
@@ -453,31 +454,31 @@ const FormFields = [
     ],
   },
   {
-    name: "NotableAchivements",
+    name: "NotableAchivements", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "29. Notable Achivements*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "InvitedTalks",
+    name: "InvitedTalks", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "30. Invited Talks",
     type: "subform",
     fields: [
       {
-        name: "Topic",
+        name: "Topic", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Topic",
         type: "text",
         required: true,
       },
       {
-        name: "Organization",
+        name: "Organization", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Organization",
         type: "text",
         required: true,
       },
       {
-        name: "Year",
+        name: "Year", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Year",
         type: "date",
         required: true,
@@ -485,25 +486,25 @@ const FormFields = [
     ],
   },
   {
-    name: "Workshops",
+    name: "Workshops", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "31. Workshops/Seminars/Conferences Organized*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "Memberships",
+    name: "Memberships", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "32. Memberships in Professional Bodies",
     type: "subform",
     fields: [
       {
-        name: "Organization",
+        name: "Organization", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Organization",
         type: "text",
         required: true,
       },
       {
-        name: "Title",
+        name: "Title", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
         label: "Title of Membership",
         type: "text",
         required: true,
@@ -511,21 +512,21 @@ const FormFields = [
     ],
   },
   {
-    name: "AbroadVisits",
+    name: "AbroadVisits", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "33. Abroad Visits*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "SocialActivities",
+    name: "SocialActivities", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "34. Social and Other Activities (Details)*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
-    name: "Courses",
+    name: "Courses", /*Note:- No spaces are allowed for name argument, Otherwise error occurs */
     label: "35. List of Courses Taught*",
     type: "textarea",
     placeholder: "Enter your description...",
