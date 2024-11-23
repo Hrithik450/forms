@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { styled } from "styled-components";
 import { collection, addDoc } from "firebase/firestore";
+import { styled } from "styled-components";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { FormFields } from "./DataArray";
@@ -9,12 +9,12 @@ import SubForm from "./SubForm";
 import axios from "axios";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCCEvPulWoPOep_9rtoSxQxch599sPZqJk",
-  authDomain: "forms-c4eb8.firebaseapp.com",
-  projectId: "forms-c4eb8",
-  storageBucket: "forms-c4eb8.firebasestorage.app",
-  messagingSenderId: "293870870373",
-  appId: "1:293870870373:web:9cc9808710c0893bc60b8c",
+  apiKey: "AIzaSyAwfLDEnS60Zc86jRk3LCZtPn5ytmub4H0",
+  authDomain: "datauvce.firebaseapp.com",
+  projectId: "datauvce",
+  storageBucket: "datauvce.firebasestorage.app",
+  messagingSenderId: "956441883426",
+  appId: "1:956441883426:web:9c77f01e7debe681b02b7b",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -56,10 +56,10 @@ const Formbuilder = () => {
 
     if (image) {
       setloading(true);
-      const cloudName = "duozomapm";
+      const cloudName = "dwtqr7kmr";
       const formData = new FormData();
       formData.append("file", image);
-      formData.append("upload_preset", "UVCE_FORM_PRESET");
+      formData.append("upload_preset", "IMAGES");
 
       try {
         const res = await axios.post(
@@ -144,7 +144,7 @@ const Formbuilder = () => {
         <Hero>
           <H1>Faculty Curriculum Vitae</H1>
           <P>
-            for UVCE Website<A href="/www.uvce.ac.in">www.uvce.ac.in</A>
+            for UVCE Website<A href="www.uvce.ac.in">www.uvce.ac.in</A>
           </P>
           {FormFields.map((field, index) => {
             if (field.type === "file") {
