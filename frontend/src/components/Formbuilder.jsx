@@ -22,7 +22,6 @@ const db = getFirestore(app);
 
 const Formbuilder = () => {
   const [formState, setformState] = useState(new Map());
-  const [fileStates, setFileStates] = useState(new Map());
   const [image, setImage] = useState(null);
   const [preview, setpreview] = useState(null);
   const [alert, setalert] = useState([]);
@@ -123,17 +122,13 @@ const Formbuilder = () => {
     debouncedHandleChange(name, value);
   };
 
-  const handleImageChange = (e, field) => {
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setFileStates((prev) => {
-      const newFileStates = new Map(prev);
-      newFileStates.set(field.name, file);
-      return newFileStates;
-    });
+    setImage(file);
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      setpreview((prev) => ({ ...prev, [field.name]: reader.result }));
+      setpreview(reader.result);
     };
     reader.readAsDataURL(file);
   };
@@ -151,13 +146,13 @@ const Formbuilder = () => {
               return (
                 <FieldContainer key={index}>
                   <Label>{field.label}</Label>
-                  {preview && <Image src={preview[field.name]} alt="Preview" />}
+                  {preview && <Image src={preview} alt="Preview" />}
                   <Input
                     name={field.name}
                     ref={fileInputRef}
                     type={field.type}
                     accept="image/*"
-                    onChange={(e) => handleImageChange(e, field)}
+                    onChange={handleImageChange}
                   />
                 </FieldContainer>
               );
