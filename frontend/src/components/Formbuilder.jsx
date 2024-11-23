@@ -4,9 +4,9 @@ import { collection, addDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { FormFields } from "./DataArray";
+import DotSpinner from "./Spinner_1";
 import SubForm from "./SubForm";
 import axios from "axios";
-import DotSpinner from "./spinner";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCCEvPulWoPOep_9rtoSxQxch599sPZqJk",
