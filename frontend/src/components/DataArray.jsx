@@ -97,15 +97,26 @@ export const FormFields = [
         label: "Year of Passing",
         type: "number",
         required: true,
-        validation: (value) =>
-          value.length <= 4 && Number(value) <= new Date().getFullYear(),
+        validation: (value, formData, callback) => {
+          if (value.length <= 4 && Number(value) <= new Date().getFullYear())
+            return true;
+          callback({ type: "danger", msg: "Passing Year Cannot be in future" });
+          return false;
+        },
       },
       {
         name: "Percentage",
         label: "Percentage (%)",
         type: "number",
         required: true,
-        validation: (value) => value.length <= 2,
+        validation: (value) => {
+          if (value.length <= 2) return true;
+          callback({
+            type: "danger",
+            msg: "Percentage Cannot exceed 2 digits",
+          });
+          return false;
+        },
       },
     ],
   },
@@ -125,12 +136,32 @@ export const FormFields = [
         label: "From",
         type: "date",
         required: true,
+        validation: (value, formData, callback) => {
+          if (formData.To && new Date(value) > new Date(formData.To)) {
+            callback({
+              type: "danger",
+              msg: "From date should be earlier than To date",
+            });
+            return false;
+          }
+          return true;
+        },
       },
       {
         name: "To",
         label: "To",
         type: "date",
         required: true,
+        validation: (value, formData, callback) => {
+          if (formData.From && new Date(value) < new Date(formData.From)) {
+            callback({
+              type: "danger",
+              msg: "The To date should be later than From date",
+            });
+            return false;
+          }
+          return true;
+        },
       },
       {
         name: "Department",
@@ -176,12 +207,32 @@ export const FormFields = [
         label: "From",
         type: "date",
         required: true,
+        validation: (value, formData, callback) => {
+          if (formData.To && new Date(value) > new Date(formData.To)) {
+            callback({
+              type: "danger",
+              msg: "From date should be earlier than To date",
+            });
+            return false;
+          }
+          return true;
+        },
       },
       {
         name: "To",
         label: "To",
         type: "date",
         required: true,
+        validation: (value, formData, callback) => {
+          if (formData.From && new Date(value) < new Date(formData.From)) {
+            callback({
+              type: "danger",
+              msg: "The To date should be later than From date",
+            });
+            return false;
+          }
+          return true;
+        },
       },
     ],
   },
@@ -275,12 +326,38 @@ export const FormFields = [
         label: "Year of Start",
         type: "date",
         required: true,
+        validation: (value, formData, callback) => {
+          if (
+            formData.EndYear &&
+            new Date(value) > new Date(formData.EndYear)
+          ) {
+            callback({
+              type: "danger",
+              msg: "StartYear should be earlier than EndYear",
+            });
+            return false;
+          }
+          return true;
+        },
       },
       {
         name: "EndYear",
         label: "Year of Completion",
         type: "date",
         required: true,
+        validation: (value, formData, callback) => {
+          if (
+            formData.StartYear &&
+            new Date(value) < new Date(formData.StartYear)
+          ) {
+            callback({
+              type: "danger",
+              msg: "The EndYear should be later than StartYear",
+            });
+            return false;
+          }
+          return true;
+        },
       },
       {
         name: "Amount",
@@ -324,12 +401,38 @@ export const FormFields = [
         label: "Year of Start",
         type: "date",
         required: true,
+        validation: (value, formData, callback) => {
+          if (
+            formData.EndYear &&
+            new Date(value) > new Date(formData.EndYear)
+          ) {
+            callback({
+              type: "danger",
+              msg: "StartYear should be earlier than EndYear",
+            });
+            return false;
+          }
+          return true;
+        },
       },
       {
         name: "EndYear",
         label: "Year of Completion",
         type: "date",
         required: true,
+        validation: (value, formData, callback) => {
+          if (
+            formData.StartYear &&
+            new Date(value) < new Date(formData.StartYear)
+          ) {
+            callback({
+              type: "danger",
+              msg: "The EndYear should be later than StartYear",
+            });
+            return false;
+          }
+          return true;
+        },
       },
       {
         name: "Amount",

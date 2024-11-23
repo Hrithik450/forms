@@ -10,7 +10,7 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
     if (alert.length > 0) {
       const timer = setTimeout(() => {
         setalert((prev) => prev.slice(1));
-      }, 1500);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [alert]);
@@ -48,13 +48,16 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
     setEntries((prev) => prev.filter((_, i) => i != index));
   };
 
+  const handleDate = (data) => {
+    showAlert({ type: data.type, msg: data.msg });
+  };
+
   const handleChange = (e, field) => {
     const Value = e.target.value;
-    if (field?.validation && !field.validation(Value)) {
-      showAlert({
-        type: "danger",
-        msg: `You cannot exceed limit of ${field.name}`,
-      });
+    if (
+      field?.validation &&
+      !field.validation(Value, SubFormData, (data) => handleDate(data))
+    ) {
       return;
     }
 

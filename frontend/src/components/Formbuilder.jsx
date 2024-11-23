@@ -30,8 +30,6 @@ const Formbuilder = () => {
   const [clearFile, setclearFile] = useState(false);
   const fileInputRef = useRef(null);
 
-  console.log(formState);
-
   useEffect(() => {
     if (fileInputRef && fileInputRef.current) {
       fileInputRef.current.value = "";
