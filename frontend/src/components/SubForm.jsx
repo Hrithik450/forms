@@ -68,20 +68,64 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
     }));
   };
 
+  const HandleChange = (key, value) => {
+    setSubFormData((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
   return (
     <>
       {entries &&
         entries.length > 0 &&
-        entries.map((entry, index) => (
-          <Preview key={index}>
-            {formFields.map((field, index) => (
-              <PrevSubInputBox key={index}>
-                <Strong>{field.label}:</Strong>
-                <SubLabel>{entry[field.name]}</SubLabel>
-              </PrevSubInputBox>
+        entries.map((entry, entryIndex) => (
+          <Preview key={entryIndex}>
+            {formFields.map((field, fieldIndex) => (
+              <SubPreviews key={fieldIndex}>
+                {field.type === "subform" && entry[field.name] ? (
+                  entry[field.name].map((subEntry, subIndex) => (
+                    <SubPreviews key={subIndex}>
+                      {field.fields.map((subField, subFieldIndex) => (
+                        <SubPreviews key={subFieldIndex}>
+                          {subField.type === "subform" &&
+                          subEntry[subField.name] ? (
+                            subEntry[subField.name].map(
+                              (miniSubEntry, miniSubIndex) => (
+                                <SubPreviews key={miniSubIndex}>
+                                  {subField.fields.map(
+                                    (miniSubField, miniSubFieldIndex) => (
+                                      <PrevSubInputBox key={miniSubFieldIndex}>
+                                        <Strong>{miniSubField.label}:</Strong>
+                                        <SubLabel>
+                                          {miniSubEntry[miniSubField.name]}
+                                        </SubLabel>
+                                      </PrevSubInputBox>
+                                    )
+                                  )}
+                                </SubPreviews>
+                              )
+                            )
+                          ) : (
+                            <PrevSubInputBox key={subFieldIndex}>
+                              <Strong>{subField.label}:</Strong>
+                              <SubLabel>{subEntry[subField.name]}</SubLabel>
+                            </PrevSubInputBox>
+                          )}
+                        </SubPreviews>
+                      ))}
+                    </SubPreviews>
+                  ))
+                ) : (
+                  <PrevSubInputBox key={fieldIndex}>
+                    <Strong>{field.label}:</Strong>
+                    <SubLabel>{entry[field.name]}</SubLabel>
+                  </PrevSubInputBox>
+                )}
+              </SubPreviews>
             ))}
             <DelSubButtonBox>
-              <DelSubButton onClick={() => handleDelete(index)}>
+              <DelSubButton onClick={() => handleDelete(entryIndex)}>
                 Delete
               </DelSubButton>
             </DelSubButtonBox>
@@ -90,40 +134,55 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
 
       <SubData>
         {formFields.map((field, index) => (
-          <SubInputBox key={field.name}>
-            <SubLabel htmlFor={field.name}>{field.label}:</SubLabel>
-            {field.type === "select" ? (
-              <Select
-                id={field.name}
-                name={field.name}
-                value={(SubFormData && SubFormData[field.name]) || ""}
-                onChange={(e) => handleChange(e, field)}
-              >
-                <Option value="">Select {field.label}</Option>
-                {field.options.map((option, index) => (
-                  <Option key={index} value={option}>
-                    {option}
-                  </Option>
-                ))}
-              </Select>
-            ) : field.type === "date" ? (
-              <SubInput
-                type="date"
-                name={field.name}
-                value={(SubFormData && SubFormData[field.name]) || ""}
-                onChange={(e) => handleChange(e, field)}
-                max={new Date().toISOString().split("T")[0]}
-              />
+          <SubForms key={index}>
+            {field.type === "subform" ? (
+              <FormInputBox>
+                <FieldContainer key={index}>
+                  <Label>{field.label}</Label>
+                  <SubForm
+                    formFields={field.fields}
+                    onchange={(data) => HandleChange(field.name, data)}
+                    clearEntries={clearEntries}
+                  />
+                </FieldContainer>
+              </FormInputBox>
             ) : (
-              <SubInput
-                id={field.name}
-                type={field.type}
-                name={field.name}
-                value={(SubFormData && SubFormData[field.name]) || ""}
-                onChange={(e) => handleChange(e, field)}
-              ></SubInput>
+              <SubInputBox>
+                <SubLabel htmlFor={field.name}>{field.label}:</SubLabel>
+                {field.type === "select" ? (
+                  <Select
+                    id={field.name}
+                    name={field.name}
+                    value={(SubFormData && SubFormData[field.name]) || ""}
+                    onChange={(e) => handleChange(e, field)}
+                  >
+                    <Option value="">Select {field.label}</Option>
+                    {field.options.map((option, index) => (
+                      <Option key={index} value={option}>
+                        {option}
+                      </Option>
+                    ))}
+                  </Select>
+                ) : field.type === "date" ? (
+                  <SubInput
+                    type="date"
+                    name={field.name}
+                    value={(SubFormData && SubFormData[field.name]) || ""}
+                    onChange={(e) => handleChange(e, field)}
+                    max={new Date().toISOString().split("T")[0]}
+                  />
+                ) : (
+                  <SubInput
+                    id={field.name}
+                    type={field.type}
+                    name={field.name}
+                    value={(SubFormData && SubFormData[field.name]) || ""}
+                    onChange={(e) => handleChange(e, field)}
+                  ></SubInput>
+                )}
+              </SubInputBox>
             )}
-          </SubInputBox>
+          </SubForms>
         ))}
 
         {alert.length > 0 && (
@@ -148,6 +207,39 @@ const SubData = styled.div`
   max-height: max-content;
   border-radius: 10px;
   max-width: 100%;
+`;
+
+const Label = styled.label`
+  border-radius: 10px 10px 0 0;
+  background-color: black;
+  max-height: max-content;
+  padding: 0.5rem;
+  width: 100%;
+  color: white;
+`;
+
+const FieldContainer = styled.div`
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.3);
+  max-height: max-content;
+  padding-bottom: 0.5rem;
+  border-radius: 10px;
+  margin: 2rem 0;
+
+  @media (max-width: 450px) {
+    margin: 1.5rem 0;
+  }
+`;
+
+const FormInputBox = styled.div`
+  max-height: max-content;
+  padding: 0 1.5rem;
+  @media (max-width: 450px) {
+    margin-top: 0.5rem;
+  }
+`;
+
+const SubForms = styled.div`
+  max-height: max-content;
 `;
 
 const SubInputBox = styled.div`
@@ -231,6 +323,10 @@ const DelSubButton = styled(SubButton)`
 
 const Preview = styled(SubData)`
   padding: 1rem 0rem;
+`;
+
+const SubPreviews = styled.div`
+  max-height: max-content;
 `;
 
 export default SubForm;

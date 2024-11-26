@@ -224,7 +224,7 @@ const Form = styled.form`
   border-radius: 10px;
   overflow-y: auto;
   height: 100vh;
-  max-width: 40%;
+  max-width: 50%;
   margin: auto;
   padding: 2rem;
 

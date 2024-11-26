@@ -1,27 +1,27 @@
 export const FormFields = [
   {
     name: "FullName",
-    label: "1. Full Name*",
+    label: "1. Full Name",
     type: "text",
     placeholder: "Full Name",
     required: true,
   },
   {
     name: "Profile",
-    label: "2. Profile Image*",
+    label: "2. Profile Image",
     type: "file",
     required: true,
   },
   {
     name: "Designation",
-    label: "3. Designation*",
+    label: "3. Designation",
     type: "text",
     placeholder: "Designation",
     required: true,
   },
   {
     name: "OfficialAddress",
-    label: "4. Official Address*",
+    label: "4. Official Address",
     type: "text",
     placeholder: "Address",
     required: true,
@@ -35,7 +35,7 @@ export const FormFields = [
   },
   {
     name: "Phone",
-    label: "6. Contact Number*",
+    label: "6. Contact Number",
     type: "number",
     placeholder: "Phone",
     required: true,
@@ -43,21 +43,21 @@ export const FormFields = [
   },
   {
     name: "AboutYou",
-    label: "7. About You (200-500 words)*",
+    label: "7. About You (200-500 words)",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
     name: "Objective",
-    label: "8. Objective*",
+    label: "8. Objective",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
     name: "Education",
-    label: "9. Education*",
+    label: "9. Education",
     type: "subform",
     fields: [
       {
@@ -179,21 +179,21 @@ export const FormFields = [
   },
   {
     name: "IndustrialExperience",
-    label: "11. Industrial Experience*",
+    label: "11. Industrial Experience",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
     name: "AcademicContributions",
-    label: "12. Academic Contributions*",
+    label: "12. Academic Contributions",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
     name: "AdministrativePositions",
-    label: "13. Administrative Positions Held*",
+    label: "13. Administrative Positions Held",
     type: "subform",
     fields: [
       {
@@ -238,63 +238,417 @@ export const FormFields = [
   },
   {
     name: "Responsibilities",
-    label: "14. State , National and International Level Responsibilities*",
+    label: "14. State , National and International Level Responsibilities",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
     name: "FacultyCouncil",
-    label: "15. Faculty and Academic Council*",
+    label: "15. Faculty and Academic Council",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
     name: "BookAppoinment",
-    label: "16. Board of Appointment*",
+    label: "16. Board of Appointment",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
     name: "BoardStudies",
-    label: "17. Board of Studies*",
+    label: "17. Board of Studies",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
     name: "BoardExamination",
-    label: "18. Board of Examination*",
+    label: "18. Board of Examination",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
     name: "ExaminationResponsibilites",
-    label: "19. Examination Responsibilities*",
+    label: "19. Examination Responsibilities",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
     name: "TechnicalCommitees",
-    label: "20. Technical Commitees*",
+    label: "20. Technical Commitees",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
     name: "Research",
-    label: "21. Research Intersets*",
+    label: "21. Research Intersets",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
+    name: "Research_Publications",
+    label: "22. Research Publications",
+    type: "subform",
+    required: true,
+    fields: [
+      {
+        name: "JournalsInter",
+        label: "a. Journals (International)",
+        type: "subform",
+        fields: [
+          {
+            name: "Authors",
+            label: "Authors List",
+            type: "subform",
+            fields: [
+              {
+                name: "FirstName",
+                label: "First Name",
+                type: "text",
+                required: true,
+              },
+              {
+                name: "LastName",
+                label: "Last Name",
+                type: "text",
+                required: true,
+              },
+            ],
+          },
+          {
+            name: "TitleOfPaper",
+            label: "Title Of the Paper",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "JournalTitle",
+            label: "Journal Title",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "Volume",
+            label: "Volume",
+            type: "number",
+            required: true,
+          },
+          {
+            name: "No",
+            label: "Number",
+            type: "number",
+            required: true,
+          },
+          {
+            name: "Pages",
+            label: "Pages",
+            type: "number",
+            required: true,
+          },
+          {
+            name: "Year",
+            label: "Year",
+            type: "text",
+            required: true,
+            validation: (value, formData, callback) => {
+              if (Number(value) <= new Date().getFullYear()) return true;
+              callback({
+                type: "danger",
+                msg: "Year Cannot be in future",
+              });
+              return false;
+            },
+          },
+          {
+            name: "ISSN",
+            label: "ISSN No",
+            type: "number",
+            required: false,
+          },
+          {
+            name: "ImpactFactor",
+            label: "Impact Factor",
+            type: "number",
+            required: false,
+          },
+          {
+            name: "SJRank",
+            label: "SJR Rank",
+            type: "number",
+            required: false,
+          },
+        ],
+      },
+      {
+        name: "JournalsNational",
+        label: "b. Journals (National)",
+        type: "subform",
+        fields: [
+          {
+            name: "Authors",
+            label: "Authors List",
+            type: "subform",
+            fields: [
+              {
+                name: "FirstName",
+                label: "First Name",
+                type: "text",
+                required: true,
+              },
+              {
+                name: "LastName",
+                label: "Last Name",
+                type: "text",
+                required: true,
+              },
+            ],
+          },
+          {
+            name: "TitleOfPaper",
+            label: "Title Of the Paper",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "JournalTitle",
+            label: "Journal Title",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "Volume",
+            label: "Volume",
+            type: "number",
+            required: true,
+          },
+          {
+            name: "No",
+            label: "Number",
+            type: "number",
+            required: true,
+          },
+          {
+            name: "Pages",
+            label: "Pages",
+            type: "number",
+            required: true,
+          },
+          {
+            name: "Year",
+            label: "Year",
+            type: "text",
+            required: true,
+            validation: (value, formData, callback) => {
+              if (Number(value) <= new Date().getFullYear()) return true;
+              callback({
+                type: "danger",
+                msg: "Year Cannot be in future",
+              });
+              return false;
+            },
+          },
+          {
+            name: "ISSN",
+            label: "ISSN No",
+            type: "number",
+            required: false,
+          },
+          {
+            name: "ImpactFactor",
+            label: "Impact Factor",
+            type: "number",
+            required: false,
+          },
+          {
+            name: "SJRank",
+            label: "SJR Rank",
+            type: "number",
+            required: false,
+          },
+        ],
+      },
+      {
+        name: "ConfNational",
+        label: "c. Conference (National)",
+        type: "subform",
+        fields: [
+          {
+            name: "Authors",
+            label: "Authors List",
+            type: "subform",
+            fields: [
+              {
+                name: "FirstName",
+                label: "First Name",
+                type: "text",
+                required: true,
+              },
+              {
+                name: "LastName",
+                label: "Last Name",
+                type: "text",
+                required: true,
+              },
+            ],
+          },
+          {
+            name: "TitleOfPaper",
+            label: "Title Of the Paper",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "ConfTitle",
+            label: "Conference Title",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "Volume",
+            label: "Volume",
+            type: "number",
+            required: true,
+          },
+          {
+            name: "No",
+            label: "Number",
+            type: "number",
+            required: true,
+          },
+          {
+            name: "Pages",
+            label: "Pages",
+            type: "number",
+            required: true,
+          },
+          {
+            name: "ConfVenue",
+            label: "Conference Venue",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "Year",
+            label: "Year",
+            type: "text",
+            required: true,
+            validation: (value, formData, callback) => {
+              if (Number(value) <= new Date().getFullYear()) return true;
+              callback({
+                type: "danger",
+                msg: "Year Cannot be in future",
+              });
+              return false;
+            },
+          },
+          {
+            name: "ISBN",
+            label: "ISBN No",
+            type: "number",
+            required: false,
+          },
+        ],
+      },
+      {
+        name: "ConfInterNational",
+        label: "d. Conference (Inter-National)",
+        type: "subform",
+        fields: [
+          {
+            name: "Authors",
+            label: "Authors List",
+            type: "subform",
+            fields: [
+              {
+                name: "FirstName",
+                label: "First Name",
+                type: "text",
+                required: true,
+              },
+              {
+                name: "LastName",
+                label: "Last Name",
+                type: "text",
+                required: true,
+              },
+            ],
+          },
+          {
+            name: "TitleOfPaper",
+            label: "Title Of the Paper",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "ConfTitle",
+            label: "Conference Title",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "Volume",
+            label: "Volume",
+            type: "number",
+            required: true,
+          },
+          {
+            name: "No",
+            label: "Number",
+            type: "number",
+            required: true,
+          },
+          {
+            name: "Pages",
+            label: "Pages",
+            type: "number",
+            required: true,
+          },
+          {
+            name: "ConfVenue",
+            label: "Conference Venue",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "Year",
+            label: "Year",
+            type: "text",
+            required: true,
+            validation: (value, formData, callback) => {
+              if (Number(value) <= new Date().getFullYear()) return true;
+              callback({
+                type: "danger",
+                msg: "Year Cannot be in future",
+              });
+              return false;
+            },
+          },
+          {
+            name: "ISBN",
+            label: "ISBN No",
+            type: "number",
+            required: false,
+          },
+        ],
+      },
+      {
+        name: "Research",
+        label: "Research Intersets",
+        type: "textarea",
+        required: true,
+      },
+    ],
+  },
+  {
     name: "SponseredProjects",
-    label: "23. Sponsered Research Projects*",
+    label: "23. Sponsered Research Projects",
     type: "subform",
     fields: [
       {
@@ -369,7 +723,7 @@ export const FormFields = [
   },
   {
     name: "ConsultancyProjects",
-    label: "24. Consultancy Projects*",
+    label: "24. Consultancy Projects",
     type: "subform",
     fields: [
       {
@@ -444,7 +798,7 @@ export const FormFields = [
   },
   {
     name: "Patents",
-    label: "25. Patents*",
+    label: "25. Patents",
     type: "subform",
     fields: [
       {
@@ -481,7 +835,7 @@ export const FormFields = [
   },
   {
     name: "Books",
-    label: "26. Books*",
+    label: "26. Books",
     type: "subform",
     fields: [
       {
@@ -524,7 +878,7 @@ export const FormFields = [
   },
   {
     name: "AwardsAndRecognition",
-    label: "27. Awards And Recognition*",
+    label: "27. Awards And Recognition",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
@@ -562,7 +916,7 @@ export const FormFields = [
   },
   {
     name: "NotableAchivements",
-    label: "29. Notable Achivements*",
+    label: "29. Notable Achivements",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
@@ -594,7 +948,7 @@ export const FormFields = [
   },
   {
     name: "Workshops",
-    label: "31. Workshops/Seminars/Conferences Organized*",
+    label: "31. Workshops/Seminars/Conferences Organized",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
@@ -620,21 +974,21 @@ export const FormFields = [
   },
   {
     name: "AbroadVisits",
-    label: "33. Abroad Visits*",
+    label: "33. Abroad Visits",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
     name: "SocialActivities",
-    label: "34. Social and Other Activities (Details)*",
+    label: "34. Social and Other Activities (Details)",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
     name: "Courses",
-    label: "35. List of Courses Taught*",
+    label: "35. List of Courses Taught",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
