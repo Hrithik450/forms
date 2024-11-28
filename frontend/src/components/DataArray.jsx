@@ -11,7 +11,7 @@ export const FormFields = [
     label: (
       <>
         2. Profile image* <span>&nbsp;</span>(
-        <i>less than 5MB, jpg/png/webp/jpeg format</i>)
+        <i>max 5MB, jpg/png/webp/jpeg format</i>)
       </>
     ),
     type: "file",
@@ -90,7 +90,6 @@ export const FormFields = [
         label: "Degree Name",
         type: "select",
         required: true,
-        dependency: "Course",
         optionsMapping: {
           UG: ["B.Sc", "BCA", "B.Tech", "BBA", "LLB", "B.Arch"],
           PG: ["M.Sc", "MCA", "M.Tech", "MBA", "LLM", "M.Arch"],
@@ -100,6 +99,7 @@ export const FormFields = [
             "PhD in Physics",
           ],
         },
+        dependency: "Course",
       },
       {
         name: "University",

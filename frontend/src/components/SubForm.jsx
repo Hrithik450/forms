@@ -48,7 +48,7 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
     setEntries((prev) => prev.filter((_, i) => i != index));
   };
 
-  const handleDate = (data) => {
+  const handleDateError = (data) => {
     showAlert({ type: data.type, msg: data.msg });
   };
 
@@ -56,7 +56,7 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
     const Value = e.target.value;
     if (
       field?.validation &&
-      !field.validation(Value, SubFormData, (data) => handleDate(data))
+      !field.validation(Value, SubFormData, (data) => handleDateError(data))
     ) {
       return;
     }
@@ -96,6 +96,14 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
         );
       }
     });
+  };
+
+  const renderOptions = (options) => {
+    return options.map((option, index) => (
+      <Option key={index} value={option}>
+        {option}
+      </Option>
+    ));
   };
 
   return (
@@ -144,23 +152,12 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
                   {field.dependency && field.optionsMapping ? (
                     <>
                       {field.optionsMapping[SubFormData[field.dependency]] &&
-                        field.optionsMapping[SubFormData[field.dependency]].map(
-                          (option, index) => (
-                            <Option key={index} value={option}>
-                              {option}
-                            </Option>
-                          )
+                        renderOptions(
+                          field.optionsMapping[SubFormData[field.dependency]]
                         )}
                     </>
                   ) : (
-                    <>
-                      {field.options &&
-                        field.options.map((option, index) => (
-                          <Option key={index} value={option}>
-                            {option}
-                          </Option>
-                        ))}
-                    </>
+                    <>{field.options && renderOptions(field.options)}</>
                   )}
                 </Select>
               </SubInputBox>

@@ -160,18 +160,18 @@ const Formbuilder = () => {
                 <FieldContainer key={index}>
                   <Label>{field.label}</Label>
                   <Select
-                id={field.name}
-                name={field.name}
-                value={(formState && formState[field.name]) || ""}
-                onChange={(e) => handleChange(e, field)}
-              >
-                <Option value="">Select {field.name}</Option>
-                {field.options.map((option, index) => (
-                  <Option key={index} value={option}>
-                    {option}
-                  </Option>
-                ))}
-              </Select>
+                    id={field.name}
+                    name={field.name}
+                    value={(formState && formState[field.name]) || ""}
+                    onChange={(e) => handleChange(e, field)}
+                  >
+                    <Option value="">Select {field.name}</Option>
+                    {field.options.map((option, index) => (
+                      <Option key={index} value={option}>
+                        {option}
+                      </Option>
+                    ))}
+                  </Select>
                 </FieldContainer>
               );
             }
