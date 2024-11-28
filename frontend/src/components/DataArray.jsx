@@ -42,7 +42,7 @@ export const FormFields = [
     name: "Phone",
     label: (
       <>
-        6. Contact Number* <span>&nbsp;</span>
+        6. Contact Number <span>&nbsp;</span>
         <i>without (+91)</i>
       </>
     ),
@@ -55,7 +55,7 @@ export const FormFields = [
     name: "AboutYou",
     label: (
       <>
-        "7. About You* <span>&nbsp;</span> <i>(200-500 words)</i>
+        "7. About You <span>&nbsp;</span> <i>(200-500 words)</i>
       </>
     ),
     type: "textarea",
@@ -66,7 +66,7 @@ export const FormFields = [
     name: "Objective",
     label: (
       <>
-        8. Objective* <i>(minimum one sentence, maximum two sentences)</i>
+        8. Objective <i>(minimum one sentence, maximum two sentences)</i>
       </>
     ),
     type: "textarea",
