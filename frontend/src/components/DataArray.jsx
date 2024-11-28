@@ -10,7 +10,7 @@ export const FormFields = [
     name: "Profile",
     label: (
       <>
-        2. Profile image* <span>&nbsp;</span>(
+        2. Profile image <span>&nbsp;</span>(
         <i>max 5MB, jpg/png/webp/jpeg format</i>)
       </>
     ),
@@ -19,7 +19,7 @@ export const FormFields = [
   },
   {
     name: "Designation",
-    label: "3. Designation*",
+    label: "3. Designation",
     type: "select",
     options: ["Professor", "Associate Professor", "Assistant Professor"],
     required: true,
@@ -33,7 +33,7 @@ export const FormFields = [
   },
   {
     name: "Email",
-    label: "5. Official Email ID*",
+    label: "5. Official Email ID",
     type: "email",
     placeholder: "Email",
     required: true,
@@ -138,7 +138,7 @@ export const FormFields = [
   },
   {
     name: "TeachingExperience",
-    label: "10. Teaching Experience*",
+    label: "10. Teaching Experience",
     type: "subform",
     fields: [
       {
@@ -306,7 +306,7 @@ export const FormFields = [
   },
   {
     name: "Research",
-    label: "21. Research Interests*",
+    label: "21. Research Interests",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
@@ -903,7 +903,7 @@ export const FormFields = [
   },
   {
     name: "AwardsAndRecognition (optional)",
-    label: "27. Awards And Recognition*",
+    label: "27. Awards And Recognition",
     type: "textarea",
     placeholder: "Enter your description...",
     required: false,
