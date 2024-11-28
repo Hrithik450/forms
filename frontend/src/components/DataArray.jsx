@@ -55,7 +55,7 @@ export const FormFields = [
     name: "AboutYou",
     label: (
       <>
-        "7. About You <span>&nbsp;</span> <i>(200-500 words)</i>
+        7. About You <span>&nbsp;</span> <i>(200-500 words)</i>
       </>
     ),
     type: "textarea",
