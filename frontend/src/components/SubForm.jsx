@@ -138,6 +138,30 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
             );
           }
 
+          if (field.type === "radio") {
+            return (
+              <SubInputBox key={index}>
+                <SubLabel>{field.label}:</SubLabel>
+                <RadioWrapper>
+                  {field.options &&
+                    field.options.map((option, OptionIndex) => (
+                      <RadioInputBox key={OptionIndex}>
+                        <RadioInput
+                          type={field.type}
+                          name={field.name}
+                          value={option}
+                          onChange={(e) => handleChange(e, field)}
+                          checked={option === SubFormData[field.name]}
+                          required={field.required}
+                        />
+                        <RadioLabel htmlFor={option}>{option}</RadioLabel>
+                      </RadioInputBox>
+                    ))}
+                </RadioWrapper>
+              </SubInputBox>
+            );
+          }
+
           if (field.type === "select") {
             return (
               <SubInputBox key={index}>
@@ -297,6 +321,18 @@ const SubLabel = styled.label`
   margin-left: 1.5rem;
 `;
 
+const ReqLabel = styled.label`
+  max-height: max-content;
+  padding: 0.2rem 0.4rem;
+  background-color: black;
+  border-radius: 3px;
+  margin: 0rem 1rem;
+  font-size: 12px;
+  display: inline;
+  color: white;
+  width: 100%;
+`;
+
 const Strong = styled.strong`
   max-height: max-content;
   margin-left: 1.5rem;
@@ -331,6 +367,26 @@ const Preview = styled(SubData)`
 `;
 
 const SubPreviews = styled.div`
+  max-height: max-content;
+`;
+
+const RadioWrapper = styled.div`
+  max-height: max-content;
+  margin: 0.5rem 0 1rem 1rem;
+`;
+
+const RadioInputBox = styled.div`
+  max-height: max-content;
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+`;
+
+const RadioLabel = styled.label`
+  max-height: max-content;
+`;
+
+const RadioInput = styled.input`
   max-height: max-content;
 `;
 

@@ -28,6 +28,7 @@ const Formbuilder = () => {
   const [loading, setloading] = useState(false);
   const [clearEntries, setclearEntries] = useState(false);
   const [clearFile, setclearFile] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -152,6 +153,31 @@ const Formbuilder = () => {
                     accept="image/*"
                     onChange={handleImageChange}
                   />
+                  {field.required && <ReqLabel>required</ReqLabel>}
+                </FieldContainer>
+              );
+            }
+
+            if (field.type === "radio") {
+              return (
+                <FieldContainer key={index}>
+                  <Label>{field.label}</Label>
+                  <RadioWrapper>
+                    {field.options &&
+                      field.options.map((option, OptionIndex) => (
+                        <RadioInputBox key={OptionIndex}>
+                          <RadioInput
+                            type={field.type}
+                            name={field.name}
+                            value={option}
+                            onChange={(e) => handleChange(e, field)}
+                            checked={option === formState[field.name]}
+                            required={field.required}
+                          />
+                          <RadioLabel htmlFor={option}>{option}</RadioLabel>
+                        </RadioInputBox>
+                      ))}
+                  </RadioWrapper>
                   {field.required && <ReqLabel>required</ReqLabel>}
                 </FieldContainer>
               );
@@ -359,6 +385,26 @@ const Select = styled.select`
 `;
 
 const Option = styled.option`
+  max-height: max-content;
+`;
+
+const RadioWrapper = styled.div`
+  max-height: max-content;
+  margin: 0.5rem 0 0.5rem 1rem;
+`;
+
+const RadioInputBox = styled.div`
+  max-height: max-content;
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+`;
+
+const RadioLabel = styled.label`
+  max-height: max-content;
+`;
+
+const RadioInput = styled.input`
   max-height: max-content;
 `;
 
