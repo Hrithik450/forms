@@ -3,7 +3,7 @@ export const FormFields = [
     name: "FullName",
     label: "1. Full Name",
     type: "text",
-    placeholder: "Full Name",
+    placeholder: "e.g., Dilip Kumar S M",
     required: true,
   },
   {
