@@ -155,6 +155,26 @@ const Formbuilder = () => {
                 </FieldContainer>
               );
             }
+            if (field.type === "select") {
+              return (
+                <FieldContainer key={index}>
+                  <Label>{field.label}</Label>
+                  <Select
+                id={field.name}
+                name={field.name}
+                value={(formState && formState[field.name]) || ""}
+                onChange={(e) => handleChange(e, field)}
+              >
+                <Option value="">Select {field.name}</Option>
+                {field.options.map((option, index) => (
+                  <Option key={index} value={option}>
+                    {option}
+                  </Option>
+                ))}
+              </Select>
+                </FieldContainer>
+              );
+            }
 
             if (field.type === "textarea") {
               return (
@@ -312,6 +332,18 @@ const Button = styled.button`
 const Image = styled.img`
   max-height: max-content;
   width: 100%;
+`;
+
+const Select = styled.select`
+  margin: 1rem 0 1rem 1rem;
+  height: 25px;
+  border-radius: 10px;
+  padding-left: 0.5rem;
+  max-width: 80%;
+`;
+
+const Option = styled.option`
+  max-height: max-content;
 `;
 
 export default Formbuilder;

@@ -8,16 +8,18 @@ export const FormFields = [
   },
   {
     name: "Profile",
-    label: "2. Profile Image",
+    label: (<>
+    2. Profile image* <span>&nbsp;</span>(<i>less than 5MB, jpg/png/webp/jpeg format</i>)
+    </>),
     type: "file",
     required: true,
   },
   {
     name: "Designation",
-    label: "3. Designation",
-    type: "text",
-    placeholder: "Designation",
-    required: true,
+    label: "3. Designation*",
+    type: "select",
+    options: ["Professor", "Associate Professor", "Assistant Professor"],
+    required:true,
   },
   {
     name: "OfficialAddress",
@@ -28,14 +30,17 @@ export const FormFields = [
   },
   {
     name: "Email",
-    label: "5. Email ID*",
+    label: "5. Official Email ID*",
     type: "email",
     placeholder: "Email",
     required: true,
   },
   {
     name: "Phone",
-    label: "6. Contact Number",
+    label: (<>
+    6. Contact Number* <span>&nbsp;</span>
+      <i>without (+91)</i>
+    </>),
     type: "number",
     placeholder: "Phone",
     required: true,
@@ -43,14 +48,20 @@ export const FormFields = [
   },
   {
     name: "AboutYou",
-    label: "7. About You (200-500 words)",
+    label: (<>
+      "7. About You* <span>&nbsp;</span> <i>(200-500 words)</i>
+    </>),
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
   },
   {
     name: "Objective",
-    label: "8. Objective",
+    label: (
+      <>
+      8. Objective* <i>(minimum one sentence, maximum two sentences)</i>
+      </>
+    ),
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
@@ -72,16 +83,15 @@ export const FormFields = [
         label: "Degree Name",
         type: "select",
         options: [
-          "M.Sc",
-          "B.Sc",
-          "BCA",
-          "MCA",
-          "M.Tech",
+          "B.E",
           "B.Tech",
-          "BBA",
-          "LLB",
+          "M.E",
+          "M.Tech",
+          "B.Sc",
+          "M.Sc",
           "B.Arch",
-          "M.Acrh",
+          "M.Arch",
+          "PhD",
         ],
         required: true,
       },
@@ -179,41 +189,41 @@ export const FormFields = [
   },
   {
     name: "IndustrialExperience",
-    label: "11. Industrial Experience",
+    label: "11. Industrial Experience (if any)",
     type: "textarea",
     placeholder: "Enter your description...",
-    required: true,
+    required: false,
   },
   {
     name: "AcademicContributions",
-    label: "12. Academic Contributions",
+    label: "12. Academic Contributions (if any)",
     type: "textarea",
     placeholder: "Enter your description...",
-    required: true,
+    required: false,
   },
   {
     name: "AdministrativePositions",
-    label: "13. Administrative Positions Held",
+    label: "13. Administrative Positions Held (if any)",
     type: "subform",
     fields: [
       {
         name: "Designation",
         label: "Designation",
         type: "text",
-        required: true,
+        required: false,
       },
       {
         name: "From",
         label: "From",
         type: "date",
-        required: true,
+        required: false,
         validation: (value, formData, callback) => {
           if (formData.To && new Date(value) > new Date(formData.To)) {
             callback({
               type: "danger",
               msg: "From date should be earlier than To date",
             });
-            return false;
+            return true;
           }
           return true;
         },
@@ -222,14 +232,14 @@ export const FormFields = [
         name: "To",
         label: "To",
         type: "date",
-        required: true,
+        required: false,
         validation: (value, formData, callback) => {
           if (formData.From && new Date(value) < new Date(formData.From)) {
             callback({
               type: "danger",
               msg: "The To date should be later than From date",
             });
-            return false;
+            return true;
           }
           return true;
         },
@@ -238,56 +248,56 @@ export const FormFields = [
   },
   {
     name: "Responsibilities",
-    label: "14. State , National and International Level Responsibilities",
+    label: "14. State / National / International Level Responsibilities (if any)",
     type: "textarea",
     placeholder: "Enter your description...",
-    required: true,
+    required: false,
   },
   {
     name: "FacultyCouncil",
-    label: "15. Faculty and Academic Council",
+    label: "15. Faculty and Academic Council (optional)",
     type: "textarea",
     placeholder: "Enter your description...",
-    required: true,
+    required: false,
   },
   {
     name: "BookAppoinment",
-    label: "16. Board of Appointment",
+    label: "16. Board of Appointment (optional)",
     type: "textarea",
     placeholder: "Enter your description...",
-    required: true,
+    required: false,
   },
   {
     name: "BoardStudies",
-    label: "17. Board of Studies",
+    label: "17. Board of Studies (optional)",
     type: "textarea",
     placeholder: "Enter your description...",
-    required: true,
+    required: false,
   },
   {
     name: "BoardExamination",
-    label: "18. Board of Examination",
+    label: "18. Board of Examination (optional)",
     type: "textarea",
     placeholder: "Enter your description...",
-    required: true,
+    required: false,
   },
   {
     name: "ExaminationResponsibilites",
-    label: "19. Examination Responsibilities",
+    label: "19. Examination Responsibilities (optional)",
     type: "textarea",
     placeholder: "Enter your description...",
-    required: true,
+    required: false,
   },
   {
     name: "TechnicalCommitees",
-    label: "20. Technical Commitees",
+    label: "20. Technical Commitees (optional)",
     type: "textarea",
     placeholder: "Enter your description...",
-    required: true,
+    required: false,
   },
   {
     name: "Research",
-    label: "21. Research Intersets",
+    label: "21. Research Interests*",
     type: "textarea",
     placeholder: "Enter your description...",
     required: true,
@@ -653,7 +663,7 @@ export const FormFields = [
     fields: [
       {
         name: "PIName",
-        label: "PI Name",
+        label: "Principal Investigator",
         type: "text",
         required: true,
       },
@@ -728,7 +738,7 @@ export const FormFields = [
     fields: [
       {
         name: "PIName",
-        label: "PI Name",
+        label: "Principal Investigator",
         type: "text",
         required: true,
       },
@@ -798,7 +808,7 @@ export const FormFields = [
   },
   {
     name: "Patents",
-    label: "25. Patents",
+    label: "25. Patents (if any)",
     type: "subform",
     fields: [
       {
@@ -835,7 +845,7 @@ export const FormFields = [
   },
   {
     name: "Books",
-    label: "26. Books",
+    label: "26. Books(optional)",
     type: "subform",
     fields: [
       {
@@ -877,15 +887,16 @@ export const FormFields = [
     ],
   },
   {
-    name: "AwardsAndRecognition",
-    label: "27. Awards And Recognition",
+    name: "AwardsAndRecognition (optional)",
+    label: "27. Awards And Recognition*",
     type: "textarea",
     placeholder: "Enter your description...",
-    required: true,
+    required: false,
   },
   {
     name: "PhD",
-    label: "28. Ph.D Guidance (Awards and Ongoing)",
+    label: (<>28. Ph.D Guidance  <i> (Awards and Ongoing) <span>&nbsp;</span>(optional)</i>
+    </>),
     type: "subform",
     fields: [
       {
@@ -916,10 +927,10 @@ export const FormFields = [
   },
   {
     name: "NotableAchivements",
-    label: "29. Notable Achivements",
+    label: "29. Notable Achivements (optional)",
     type: "textarea",
     placeholder: "Enter your description...",
-    required: true,
+    required: false,
   },
   {
     name: "InvitedTalks",
@@ -951,7 +962,7 @@ export const FormFields = [
     label: "31. Workshops/Seminars/Conferences Organized",
     type: "textarea",
     placeholder: "Enter your description...",
-    required: true,
+    required: false,
   },
   {
     name: "Memberships",
@@ -974,10 +985,10 @@ export const FormFields = [
   },
   {
     name: "AbroadVisits",
-    label: "33. Abroad Visits",
+    label: "33. Abroad Visits (if any)",
     type: "textarea",
     placeholder: "Enter your description...",
-    required: true,
+    required: false,
   },
   {
     name: "SocialActivities",
