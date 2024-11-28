@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
+const optionsMapping = {
+  UG: ["B.Sc", "BCA", "B.Tech", "BBA", "LLB", "B.Arch"],
+  PG: ["M.Sc", "MCA", "M.Tech", "MBA", "LLM", "M.Arch"],
+  PhD: ["PhD in Computer Science", "PhD in Mathematics", "PhD in Physics"],
+};
+
 const SubForm = ({ formFields, onchange, clearEntries }) => {
   const [entries, setEntries] = useState([]);
   const [SubFormData, setSubFormData] = useState({});
   const [alert, setalert] = useState([]);
+  const [selectedCourse, setselectedCourse] = useState(null);
 
   useEffect(() => {
     if (alert.length > 0) {
@@ -22,12 +29,17 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const isValid = formFields.every((field) =>
-      field.required ? SubFormData[field.name] : true
-    );
+    const isValid = formFields.every((field) => {
+      return field.required ? SubFormData[field.name] : true;
+    });
 
     if (!isValid) {
       showAlert({ type: "danger", msg: "Please fill all the details" });
+      return;
+    }
+
+    if (entries.length == 0) {
+      showAlert({ type: "danger", msg: "Empty form cannot be Added" });
       return;
     }
 
@@ -75,55 +87,46 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
     }));
   };
 
+  const handleCourseChange = (e) => {
+    setselectedCourse(e.target.value);
+
+    const { name, value } = e.target;
+    setSubFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const renderPreview = (fields, data) => {
+    return fields.map((field, fieldIndex) => {
+      if (field.type === "subform" && data[field.name]) {
+        return (
+          <SubPreviews key={fieldIndex}>
+            {data[field.name].map((nestedEntry, nestedIndex) => (
+              <SubPreviews key={nestedIndex}>
+                {renderPreview(field.fields, nestedEntry)}
+              </SubPreviews>
+            ))}
+          </SubPreviews>
+        );
+      } else {
+        return (
+          <PrevSubInputBox key={fieldIndex}>
+            <Strong>{field.label}:</Strong>
+            <SubLabel>{data[field.name]}</SubLabel>
+          </PrevSubInputBox>
+        );
+      }
+    });
+  };
+
   return (
     <>
       {entries &&
         entries.length > 0 &&
         entries.map((entry, entryIndex) => (
           <Preview key={entryIndex}>
-            {formFields.map((field, fieldIndex) => (
-              <SubPreviews key={fieldIndex}>
-                {field.type === "subform" && entry[field.name] ? (
-                  entry[field.name].map((subEntry, subIndex) => (
-                    <SubPreviews key={subIndex}>
-                      {field.fields.map((subField, subFieldIndex) => (
-                        <SubPreviews key={subFieldIndex}>
-                          {subField.type === "subform" &&
-                          subEntry[subField.name] ? (
-                            subEntry[subField.name].map(
-                              (miniSubEntry, miniSubIndex) => (
-                                <SubPreviews key={miniSubIndex}>
-                                  {subField.fields.map(
-                                    (miniSubField, miniSubFieldIndex) => (
-                                      <PrevSubInputBox key={miniSubFieldIndex}>
-                                        <Strong>{miniSubField.label}:</Strong>
-                                        <SubLabel>
-                                          {miniSubEntry[miniSubField.name]}
-                                        </SubLabel>
-                                      </PrevSubInputBox>
-                                    )
-                                  )}
-                                </SubPreviews>
-                              )
-                            )
-                          ) : (
-                            <PrevSubInputBox key={subFieldIndex}>
-                              <Strong>{subField.label}:</Strong>
-                              <SubLabel>{subEntry[subField.name]}</SubLabel>
-                            </PrevSubInputBox>
-                          )}
-                        </SubPreviews>
-                      ))}
-                    </SubPreviews>
-                  ))
-                ) : (
-                  <PrevSubInputBox key={fieldIndex}>
-                    <Strong>{field.label}:</Strong>
-                    <SubLabel>{entry[field.name]}</SubLabel>
-                  </PrevSubInputBox>
-                )}
-              </SubPreviews>
-            ))}
+            {renderPreview(formFields, entry)}
             <DelSubButtonBox>
               <DelSubButton onClick={() => handleDelete(entryIndex)}>
                 Delete
@@ -146,6 +149,24 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
                   />
                 </FieldContainer>
               </FormInputBox>
+            ) : field.name === "Degree" ? (
+              <SubInputBox>
+                <SubLabel htmlFor={field.name}>{field.label}:</SubLabel>
+                <Select
+                  id={field.name}
+                  name={field.name}
+                  value={(SubFormData && SubFormData[field.name]) || ""}
+                  onChange={(e) => handleChange(e, field)}
+                >
+                  <Option value="">Select {field.label}</Option>
+                  {selectedCourse &&
+                    optionsMapping[selectedCourse].map((option) => (
+                      <Option key={option} value={option}>
+                        {option}
+                      </Option>
+                    ))}
+                </Select>
+              </SubInputBox>
             ) : (
               <SubInputBox>
                 <SubLabel htmlFor={field.name}>{field.label}:</SubLabel>
@@ -154,7 +175,13 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
                     id={field.name}
                     name={field.name}
                     value={(SubFormData && SubFormData[field.name]) || ""}
-                    onChange={(e) => handleChange(e, field)}
+                    onChange={(e) => {
+                      if (field.name === "Course") {
+                        handleCourseChange(e);
+                      } else {
+                        handleChange(e, field);
+                      }
+                    }}
                   >
                     <Option value="">Select {field.label}</Option>
                     {field.options.map((option, index) => (
