@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const optionsMapping = {
-  UG: ["B.Sc", "BCA", "B.Tech", "BBA", "LLB", "B.Arch"],
-  PG: ["M.Sc", "MCA", "M.Tech", "MBA", "LLM", "M.Arch"],
-  PhD: ["PhD in Computer Science", "PhD in Mathematics", "PhD in Physics"],
-};
-
 const SubForm = ({ formFields, onchange, clearEntries }) => {
   const [entries, setEntries] = useState([]);
   const [SubFormData, setSubFormData] = useState({});
   const [alert, setalert] = useState([]);
-  const [selectedCourse, setselectedCourse] = useState(null);
 
   useEffect(() => {
     if (alert.length > 0) {
@@ -35,11 +28,6 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
 
     if (!isValid) {
       showAlert({ type: "danger", msg: "Please fill all the details" });
-      return;
-    }
-
-    if (entries.length == 0) {
-      showAlert({ type: "danger", msg: "Empty form cannot be Added" });
       return;
     }
 
@@ -87,16 +75,6 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
     }));
   };
 
-  const handleCourseChange = (e) => {
-    setselectedCourse(e.target.value);
-
-    const { name, value } = e.target;
-    setSubFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   const renderPreview = (fields, data) => {
     return fields.map((field, fieldIndex) => {
       if (field.type === "subform" && data[field.name]) {
@@ -136,11 +114,11 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
         ))}
 
       <SubData>
-        {formFields.map((field, index) => (
-          <SubForms key={index}>
-            {field.type === "subform" ? (
-              <FormInputBox>
-                <FieldContainer key={index}>
+        {formFields.map((field, index) => {
+          if (field.type === "subform") {
+            return (
+              <FormInputBox key={index}>
+                <FieldContainer>
                   <Label>{field.label}</Label>
                   <SubForm
                     formFields={field.fields}
@@ -149,8 +127,12 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
                   />
                 </FieldContainer>
               </FormInputBox>
-            ) : field.name === "Degree" ? (
-              <SubInputBox>
+            );
+          }
+
+          if (field.type === "select") {
+            return (
+              <SubInputBox key={index}>
                 <SubLabel htmlFor={field.name}>{field.label}:</SubLabel>
                 <Select
                   id={field.name}
@@ -159,58 +141,60 @@ const SubForm = ({ formFields, onchange, clearEntries }) => {
                   onChange={(e) => handleChange(e, field)}
                 >
                   <Option value="">Select {field.label}</Option>
-                  {selectedCourse &&
-                    optionsMapping[selectedCourse].map((option) => (
-                      <Option key={option} value={option}>
-                        {option}
-                      </Option>
-                    ))}
+                  {field.dependency && field.optionsMapping ? (
+                    <>
+                      {field.optionsMapping[SubFormData[field.dependency]] &&
+                        field.optionsMapping[SubFormData[field.dependency]].map(
+                          (option, index) => (
+                            <Option key={index} value={option}>
+                              {option}
+                            </Option>
+                          )
+                        )}
+                    </>
+                  ) : (
+                    <>
+                      {field.options &&
+                        field.options.map((option, index) => (
+                          <Option key={index} value={option}>
+                            {option}
+                          </Option>
+                        ))}
+                    </>
+                  )}
                 </Select>
               </SubInputBox>
-            ) : (
-              <SubInputBox>
+            );
+          }
+
+          if (field.type === "date") {
+            return (
+              <SubInputBox key={index}>
                 <SubLabel htmlFor={field.name}>{field.label}:</SubLabel>
-                {field.type === "select" ? (
-                  <Select
-                    id={field.name}
-                    name={field.name}
-                    value={(SubFormData && SubFormData[field.name]) || ""}
-                    onChange={(e) => {
-                      if (field.name === "Course") {
-                        handleCourseChange(e);
-                      } else {
-                        handleChange(e, field);
-                      }
-                    }}
-                  >
-                    <Option value="">Select {field.label}</Option>
-                    {field.options.map((option, index) => (
-                      <Option key={index} value={option}>
-                        {option}
-                      </Option>
-                    ))}
-                  </Select>
-                ) : field.type === "date" ? (
-                  <SubInput
-                    type="date"
-                    name={field.name}
-                    value={(SubFormData && SubFormData[field.name]) || ""}
-                    onChange={(e) => handleChange(e, field)}
-                    max={new Date().toISOString().split("T")[0]}
-                  />
-                ) : (
-                  <SubInput
-                    id={field.name}
-                    type={field.type}
-                    name={field.name}
-                    value={(SubFormData && SubFormData[field.name]) || ""}
-                    onChange={(e) => handleChange(e, field)}
-                  ></SubInput>
-                )}
+                <SubInput
+                  type="date"
+                  name={field.name}
+                  value={(SubFormData && SubFormData[field.name]) || ""}
+                  onChange={(e) => handleChange(e, field)}
+                  max={new Date().toISOString().split("T")[0]}
+                />
               </SubInputBox>
-            )}
-          </SubForms>
-        ))}
+            );
+          }
+
+          return (
+            <SubInputBox key={index}>
+              <SubLabel htmlFor={field.name}>{field.label}:</SubLabel>
+              <SubInput
+                id={field.name}
+                type={field.type}
+                name={field.name}
+                value={(SubFormData && SubFormData[field.name]) || ""}
+                onChange={(e) => handleChange(e, field)}
+              ></SubInput>
+            </SubInputBox>
+          );
+        })}
 
         {alert.length > 0 && (
           <div
@@ -259,14 +243,11 @@ const FieldContainer = styled.div`
 
 const FormInputBox = styled.div`
   max-height: max-content;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
   @media (max-width: 450px) {
     margin-top: 0.5rem;
+    padding: 0 0.5rem;
   }
-`;
-
-const SubForms = styled.div`
-  max-height: max-content;
 `;
 
 const SubInputBox = styled.div`

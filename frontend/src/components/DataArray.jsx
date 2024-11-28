@@ -89,18 +89,17 @@ export const FormFields = [
         name: "Degree",
         label: "Degree Name",
         type: "select",
-        options: [
-          "B.E",
-          "B.Tech",
-          "M.E",
-          "M.Tech",
-          "B.Sc",
-          "M.Sc",
-          "B.Arch",
-          "M.Arch",
-          "PhD",
-        ],
         required: true,
+        dependency: "Course",
+        optionsMapping: {
+          UG: ["B.Sc", "BCA", "B.Tech", "BBA", "LLB", "B.Arch"],
+          PG: ["M.Sc", "MCA", "M.Tech", "MBA", "LLM", "M.Arch"],
+          PhD: [
+            "PhD in Computer Science",
+            "PhD in Mathematics",
+            "PhD in Physics",
+          ],
+        },
       },
       {
         name: "University",
@@ -145,7 +144,8 @@ export const FormFields = [
       {
         name: "Designation",
         label: "Designation",
-        type: "text",
+        type: "select",
+        options: ["Professor", "Associate Professor", "Assistant Professor"],
         required: true,
       },
       {
@@ -216,7 +216,8 @@ export const FormFields = [
       {
         name: "Designation",
         label: "Designation",
-        type: "text",
+        type: "select",
+        options: ["Professor", "Associate Professor", "Assistant Professor"],
         required: false,
       },
       {
@@ -851,10 +852,23 @@ export const FormFields = [
     type: "subform",
     fields: [
       {
-        name: "Author",
-        label: "Author",
-        type: "text",
-        required: true,
+        name: "Authors",
+        label: "Authors List",
+        type: "subform",
+        fields: [
+          {
+            name: "FirstName",
+            label: "First Name",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "LastName",
+            label: "Last Name",
+            type: "text",
+            required: true,
+          },
+        ],
       },
       {
         name: "BTitle",
