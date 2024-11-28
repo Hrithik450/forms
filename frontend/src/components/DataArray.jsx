@@ -653,15 +653,14 @@ export const FormFields = [
             name: "ISBN",
             label: "ISBN No",
             type: "number",
-            required: false,
           },
         ],
       },
     ],
   },
   {
-    name: "SponseredProjects",
-    label: "23. Sponsered Research Projects",
+    name: "SponsoredProjects",
+    label: "23. Sponsored Research Projects",
     type: "subform",
     fields: [
       {
@@ -913,9 +912,8 @@ export const FormFields = [
     name: "PhD",
     label: (
       <>
-        28. Ph.D Guidance{" "}
+        28. Ph.D Guidance
         <i>
-          {" "}
           (Awards and Ongoing) <span>&nbsp;</span>(optional)
         </i>
       </>

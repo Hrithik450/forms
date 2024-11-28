@@ -152,9 +152,11 @@ const Formbuilder = () => {
                     accept="image/*"
                     onChange={handleImageChange}
                   />
+                  {field.required && <ReqLabel>required</ReqLabel>}
                 </FieldContainer>
               );
             }
+
             if (field.type === "select") {
               return (
                 <FieldContainer key={index}>
@@ -188,6 +190,7 @@ const Formbuilder = () => {
                     spellCheck="true"
                     required={field.required}
                   />
+                  {field.required && <ReqLabel>required</ReqLabel>}
                 </FieldContainer>
               );
             }
@@ -216,6 +219,7 @@ const Formbuilder = () => {
                   onChange={(e) => handleChange(e, field)}
                   required={field.required}
                 />
+                {field.required && <ReqLabel>required</ReqLabel>}
               </FieldContainer>
             );
           })}
@@ -275,6 +279,18 @@ const H1 = styled.h1`
   text-align: center;
 `;
 
+const ReqLabel = styled.label`
+  max-height: max-content;
+  padding: 0.2rem 0.4rem;
+  background-color: black;
+  border-radius: 3px;
+  margin: 0rem 1rem;
+  font-size: 12px;
+  display: inline;
+  color: white;
+  width: 100%;
+`;
+
 const Label = styled.label`
   border-radius: 10px 10px 0 0;
   background-color: black;
@@ -300,7 +316,7 @@ const Desc = styled.textarea`
   outline: none;
   display: block;
   resize: none;
-  margin: 0.5rem 0 1rem 1rem;
+  margin: 0.5rem 0 0.5rem 1rem;
   border-bottom: 2px solid black;
 `;
 
@@ -309,7 +325,7 @@ const Input = styled.input`
   border: none;
   outline: none;
   display: block;
-  margin: 1rem 0 1.5rem 1rem;
+  margin: 1rem 0 0.5rem 1rem;
   border-bottom: 2px solid black;
 
   &::-webkit-inner-spin-button,
