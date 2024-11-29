@@ -196,21 +196,21 @@ export const FormFields = [
   },
   {
     name: "IndustrialExperience",
-    label: "11. Industrial Experience (if any)",
+    label: "11. Industrial Experience",
     type: "textarea",
     placeholder: "Enter your description...",
     required: false,
   },
   {
     name: "AcademicContributions",
-    label: "12. Academic Contributions (if any)",
+    label: "12. Academic Contributions",
     type: "textarea",
     placeholder: "Enter your description...",
     required: false,
   },
   {
     name: "AdministrativePositions",
-    label: "13. Administrative Positions Held (if any)",
+    label: "13. Administrative Positions Held",
     type: "subform",
     fields: [
       {
@@ -256,50 +256,49 @@ export const FormFields = [
   },
   {
     name: "Responsibilities",
-    label:
-      "14. State / National / International Level Responsibilities (if any)",
+    label: "14. State / National / International Level Responsibilities",
     type: "textarea",
     placeholder: "Enter your description...",
     required: false,
   },
   {
     name: "FacultyCouncil",
-    label: "15. Faculty and Academic Council (optional)",
+    label: "15. Faculty and Academic Council",
     type: "textarea",
     placeholder: "Enter your description...",
     required: false,
   },
   {
     name: "BookAppoinment",
-    label: "16. Board of Appointment (optional)",
+    label: "16. Board of Appointment",
     type: "textarea",
     placeholder: "Enter your description...",
     required: false,
   },
   {
     name: "BoardStudies",
-    label: "17. Board of Studies (optional)",
+    label: "17. Board of Studies",
     type: "textarea",
     placeholder: "Enter your description...",
     required: false,
   },
   {
     name: "BoardExamination",
-    label: "18. Board of Examination (optional)",
+    label: "18. Board of Examination",
     type: "textarea",
     placeholder: "Enter your description...",
     required: false,
   },
   {
     name: "ExaminationResponsibilites",
-    label: "19. Examination Responsibilities (optional)",
+    label: "19. Examination Responsibilities",
     type: "textarea",
     placeholder: "Enter your description...",
     required: false,
   },
   {
     name: "TechnicalCommitees",
-    label: "20. Technical Commitees (optional)",
+    label: "20. Technical Commitees",
     type: "textarea",
     placeholder: "Enter your description...",
     required: false,
@@ -810,7 +809,7 @@ export const FormFields = [
   },
   {
     name: "Patents",
-    label: "25. Patents (if any)",
+    label: "25. Patents",
     type: "subform",
     fields: [
       {
@@ -847,7 +846,7 @@ export const FormFields = [
   },
   {
     name: "Books",
-    label: "26. Books(optional)",
+    label: "26. Books",
     type: "subform",
     fields: [
       {
@@ -902,7 +901,7 @@ export const FormFields = [
     ],
   },
   {
-    name: "AwardsAndRecognition (optional)",
+    name: "AwardsAndRecognition",
     label: "27. Awards And Recognition",
     type: "textarea",
     placeholder: "Enter your description...",
@@ -914,7 +913,7 @@ export const FormFields = [
       <>
         28. Ph.D Guidance
         <i>
-          (Awards and Ongoing) <span>&nbsp;</span>(optional)
+          (Awards and Ongoing) <span>&nbsp;</span>
         </i>
       </>
     ),
@@ -948,7 +947,7 @@ export const FormFields = [
   },
   {
     name: "NotableAchivements",
-    label: "29. Notable Achivements (optional)",
+    label: "29. Notable Achivements",
     type: "textarea",
     placeholder: "Enter your description...",
     required: false,
@@ -1006,7 +1005,7 @@ export const FormFields = [
   },
   {
     name: "AbroadVisits",
-    label: "33. Abroad Visits (if any)",
+    label: "33. Abroad Visits",
     type: "textarea",
     placeholder: "Enter your description...",
     required: false,
