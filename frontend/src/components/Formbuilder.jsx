@@ -1,24 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { styled } from "styled-components";
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
 import { FormFields } from "./DataArray";
 import DotSpinner from "./Spinner_1";
 import SubForm from "./SubForm";
 import axios from "axios";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAwfLDEnS60Zc86jRk3LCZtPn5ytmub4H0",
-  authDomain: "datauvce.firebaseapp.com",
-  projectId: "datauvce",
-  storageBucket: "datauvce.firebasestorage.app",
-  messagingSenderId: "956441883426",
-  appId: "1:956441883426:web:9c77f01e7debe681b02b7b",
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+import db from "../Config/Firebase";
 
 const Formbuilder = () => {
   const [formState, setformState] = useState({});
@@ -28,7 +15,6 @@ const Formbuilder = () => {
   const [loading, setloading] = useState(false);
   const [clearEntries, setclearEntries] = useState(false);
   const [clearFile, setclearFile] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
